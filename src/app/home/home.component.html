@@ -1,0 +1,136 @@
+<div style="padding: 2%;">
+
+    <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+            (keyup)="getsearch(cus_id.value)" #cus_id>
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="getsearch(cus_id.value)">ค้นหา</button>
+    </form>
+    <br>
+    <div *ngIf="table1">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">รหัส</th>
+                    <th scope="col">ชื่อ</th>
+                    <th scope="col">ร้าน</th>
+                    <th scope="col">เบอร์โทร</th>
+                    <th scope="col">จัดการ</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of customershow  | paginate: { itemsPerPage: 10, currentPage: p }">
+                <tr>
+                    <td>{{item.cus_id}}</td>
+                    <td>{{item.cus_name}}</td>
+                    <td>{{item.cus_shop}}</td>
+                    <td>{{item.cus_tell}}</td>
+                    <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"
+                            (click)="insertcus(item.cus_id,item.cus_name,item.cus_shop,item.cus_address,
+                        item.cus_tell,item.cus_email)" onclick="document.getElementById('exampleFormControlTextarea1').value = '',
+                        document.getElementById('inputState').value = '',
+                        document.getElementById('remark').value = ''">สร้าง</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+
+
+    <div *ngIf="table2">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">รหัส</th>
+                    <th scope="col">ชื่อ</th>
+                    <th scope="col">ร้าน</th>
+                    <th scope="col">เบอร์โทร</th>
+                    <th scope="col">จัดการ</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of seach  | paginate: { itemsPerPage: 10, currentPage: p }">
+                <tr>
+                    <td>{{item.cus_id}}</td>
+                    <td>{{item.cus_name}}</td>
+                    <td>{{item.cus_shop}}</td>
+                    <td>{{item.cus_tell}}</td>
+                    <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"
+                            (click)="insertcus(item.cus_id,item.cus_name,item.cus_shop,item.cus_address,
+                        item.cus_tell,item.cus_email)">สร้าง</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">สร้างใบงาน</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class=" col-md-6">
+                            <label for="inputEmail4">ชื่อ</label>
+                            <input type="text" class="form-control" [formControl]="cus_name" readonly>
+                        </div>
+                        <div class=" col-md-6">
+                            <label for="inputPassword4">ร้าน</label>
+                            <input type="text" class="form-control" [formControl]="cus_shop" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class=" col-md-12">
+                            <label for="inputPassword4">ที่อยู่</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" readonly
+                                [formControl]="cus_address">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class=" col-md-6">
+                            <label>เบอร์โทร</label>
+                            <input type="text" class="form-control" [formControl]="cus_tell" readonly>
+                        </div>
+                        <div class=" col-md-6">
+                            <label>เลขประจำตัวผู้เสียภาษี</label>
+                            <input type="text" class="form-control" [formControl]="cus_taxid" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class=" col-md-6">
+                            <label for="inputCity">รายละเอียด</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                #cus_details></textarea>
+                        </div>
+                        <div class=" col-md-6">
+                            <label for="inputState">สถานะ</label>
+                            <select id="inputState" class="form-control" [formControl]="job_status">
+                                <option value="Y" selected>เสร็จสิ้น</option>
+                                <option value="N">กำลังดำเนินการ</option>
+                            </select>
+                            <label for="inputPassword4">หมายเหตุ</label>
+                            <input type="text" id="remark" class="form-control" [formControl]="job_remark">
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="insert(cus_details.value)">บันทึก</button>
+            </div>
+        </div>
+    </div>
+</div>

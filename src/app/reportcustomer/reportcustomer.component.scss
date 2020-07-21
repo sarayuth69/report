@@ -1,0 +1,24 @@
+  
+@media print {
+    #button {
+        display: none;
+    }
+  }
+ 
+
+  .tr{
+      width: 10%;
+    word-wrap:break-word;
+  }
+  h6{
+      display: none;
+  }
+ text{
+    text-decoration: none;
+    text-overflow: ellipsis; /* เพิ่ม ... จุดจุดจุดท้ายสุด */ 
+    display: block; overflow: hidden; 
+    white-space: nowrap; 
+    width: 100%; /* กำหนดความกว้าง */ 
+ }
+  @import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
+  *{font-family: 'Kanit', sans-serif;}

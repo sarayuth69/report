@@ -1,0 +1,29 @@
+<div style="padding-left: 2%;margin-right: 60%;" #TABLE #table id="print-section">
+    <br>
+
+    <h6>
+
+
+        <p align="center">{{job_date}} น.</p>
+        <hr size="1" color="black">
+        ชื่อลูกค้า
+        <hr size="1" color="black">
+        {{cus_name}} โทร.{{cus_tell}}
+    </h6>
+    <h6>{{cus_address}}</h6>
+    <h6>
+        <hr size="1" color="black">
+        รายละเอียด
+        <hr size="1" color="black">
+        {{job_detail}}
+    </h6>
+
+
+</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;<button type="button" id="button" class="btn btn-outline-primary" (click)="print()">ปริ้น</button>
+<!-- <button type="button" id="button" class="btn btn-outline-primary"
+    (click)="printToCart('printSectionId')">456465456456</button> -->
+
+<!-- <button type="button" id="button" class="btn btn-outline-primary" (click)="ExportTOExcel()">Primary123</button> -->
