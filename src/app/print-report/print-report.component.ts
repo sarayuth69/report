@@ -19,16 +19,21 @@ import 'sweetalert2/src/sweetalert2.scss';
 export class PrintReportComponent implements OnInit {
   @ViewChild('TABLE', { static: false }) TABLE: ElementRef;
   title = 'Excel';
-
+  getjob;
   cus_name;
   cus_shop;
+  job_date1;
   cus_address;
   cus_tell;
   cus_email;
   cus_taxid;
   cus_details;
   job_detail;
-  job_date;
+  date;
+  customershow;
+  job_date: boolean;
+  job_date_test: boolean;
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -47,16 +52,25 @@ export class PrintReportComponent implements OnInit {
         this.cus_taxid = params.cus_taxid;
         this.cus_details = params.cus_details;
         this.job_detail = params.job_detail;
-        this.job_date = params.job_date;
+        this.date = params.date;
       }
     )
-  }
-  print() {
-    let printContents, popupWin;
-    printContents = document.getElementById('print-section').innerHTML;
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    popupWin.document.open();
-    popupWin.document.write(`
+    this.http.get('http://localhost/report_cuswebservice/API/getjob.php')
+      .subscribe(
+        (data: any) => {
+          this.getjob = data;
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
+    setTimeout(() => {
+
+      let printContents, popupWin;
+      printContents = document.getElementById('print-section').innerHTML;
+      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      popupWin.document.open();
+      popupWin.document.write(`
       <html>
         <head>
           <title>Print tab</title>
@@ -68,10 +82,14 @@ export class PrintReportComponent implements OnInit {
           }
           </style>
         </head>
-    <body onload="window.print();window.close()">${printContents}z</body>
+    <body onload="window.print();window.close()">${printContents}</body>
       </html>`
-    );
-    popupWin.document.close();
+      );
+      popupWin.document.close();
+    }, 1000);
+
+
+
   }
 
   ExportTOExcel() {

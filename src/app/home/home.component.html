@@ -120,7 +120,8 @@
                             </select>
                             <label for="inputPassword4">หมายเหตุ</label>
                             <input type="text" id="remark" class="form-control" [formControl]="job_remark">
-
+                            <input type="text" id="time" class="form-control"
+                                value="{{day}}/{{month}}/{{yeath}} {{Hours}}:{{Minutes}}" #job_date>
                         </div>
                     </div>
 
@@ -129,7 +130,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="insert(cus_details.value)">บันทึก</button>
+                    (click)="insert(cus_details.value,job_date.value)">บันทึก</button>
             </div>
         </div>
     </div>

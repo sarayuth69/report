@@ -7,6 +7,7 @@
     $data = [];
     $data['cus_id'] = $_POST['cus_id'];
     $data['job_detail'] = $_POST['job_detail'];
+    // $data['job_date'] = $_POST['job_date'];
     $data['job_status'] = $_POST['job_status'];
     $data['job_remark'] = $_POST['job_remark'];
 

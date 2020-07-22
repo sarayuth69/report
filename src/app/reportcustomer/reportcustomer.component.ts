@@ -51,12 +51,6 @@ export class ReportcustomerComponent implements OnInit {
         (data: any) => {
           this.getjob = data;
           console.log(this.getjob);
-          if (this.getjob.length > 0) {
-            setTimeout(() => {
-              
-            }, 1000);
-          }
-
         },
         (error: any) => {
           console.log(error);

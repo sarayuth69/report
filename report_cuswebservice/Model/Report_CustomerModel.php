@@ -13,7 +13,27 @@ class Report_CustomerModel extends BaseModel{
     
 function getCustomer(){
 
-        $sql  = "SELECT * FROM `customers` WHERE 1";
+        $sql  = "SELECT
+        customers.cus_name,
+        customers.cus_shop,
+        customers.cus_address,
+        job.job_id,
+        customers.cus_id,
+        job.job_detail,
+        job.job_date,
+        job.job_remark,
+        job.job_status,
+        customers.cus_tell,
+        customers.cus_email,
+        customers.cus_taxid,
+        customers.cus_details
+        FROM
+        customers
+        LEFT JOIN job ON job.cus_id = customers.cus_id
+        GROUP BY
+        customers.cus_id
+        
+        ";
      
         if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -26,7 +46,7 @@ function getCustomer(){
 function getjob(){
 
         $sql  = "SELECT
-        *
+        *,DATE_FORMAT(`job`.`job_date`,'%d/%m/%Y %H:%i') AS date
         FROM
         `customers`
         INNER JOIN `job` ON `job`.`cus_id` = `customers`.`cus_id` 

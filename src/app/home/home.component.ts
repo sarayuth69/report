@@ -10,16 +10,25 @@ import { FormControl } from '@angular/forms';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import { formatDate, DatePipe } from '@angular/common';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  todayNumber: number = Date.now();
+  todayDate: Date = new Date();
+  todayString: string = new Date().toDateString();
+  todayISOString: string = new Date().toISOString();
+
   customershow: any;
   inset_customer: any;
   p: any;
   seach: any;
+  getjob;
+  thTime;
+  thDate;
   table1: boolean;
   table2: boolean;
   cus_name = new FormControl('');
@@ -29,7 +38,7 @@ export class HomeComponent implements OnInit {
   cus_email = new FormControl('');
   cus_taxid = new FormControl('');
   cus_details = new FormControl('');
-
+  timetest;
   job_id = new FormControl('');
   cus_id = new FormControl('');
   job_detail = new FormControl('');
@@ -37,6 +46,13 @@ export class HomeComponent implements OnInit {
   job_status = new FormControl('');
   job_remark = new FormControl('');
 
+  day = new Date().getDate();
+  month = new Date().getMonth() + 1;
+  yeath = new Date().getUTCFullYear();
+  Hours = new Date().getHours();
+  Minutes = new Date().getMinutes();
+  Seconds = new Date().getSeconds();
+  testday = new Date().toLocaleString();
 
   constructor(
     public router: Router,
@@ -46,7 +62,15 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.http.get('http://localhost/report_cuswebservice/API/getjob.php')
+    .subscribe(
+      (data: any) => {
+        this.getjob = data;
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
     this.http.get('http://localhost/report_cuswebservice/API/getcustomer.php')
       .subscribe(
         (data: any) => {
@@ -56,14 +80,12 @@ export class HomeComponent implements OnInit {
             this.table1 = true;
             this.table2 = false;
           }
-          console.log(this.customershow);
-
         },
         (error: any) => {
           console.log(error);
         }
-
       );
+
   }
   insertcus(cus_id, cus_name, cus_shop, cus_address, cus_tell,
     cus_email, cus_taxid) {
@@ -74,12 +96,13 @@ export class HomeComponent implements OnInit {
     this.cus_tell = new FormControl(cus_tell);
     this.cus_email = new FormControl(cus_email);
     this.cus_taxid = new FormControl(cus_taxid);
-    console.log();
 
   }
-  insert(cus_details) {
+  insert(cus_details, job_date) {
 
     this.job_detail = cus_details
+    this.job_date = job_date
+    console.log(job_date);
     if (!this.job_detail) {
       Swal.fire({
         icon: 'error',
@@ -91,9 +114,9 @@ export class HomeComponent implements OnInit {
       const body = 'job_id=' + this.job_id.value
         + '&cus_id=' + this.cus_id.value
         + '&job_detail=' + this.job_detail
-        + '&job_date=' + this.job_date.value
+        + '&job_date=' + this.job_date
         + '&job_status=' + this.job_status.value
-       + '&job_remark=' + this.job_remark.value
+        + '&job_remark=' + this.job_remark.value
 
       console.log(body);
       const headers = new HttpHeaders({
@@ -130,8 +153,18 @@ export class HomeComponent implements OnInit {
             (error: any) => {
               console.log(error);
             }
-
           );
+      }).then(() => {
+        setTimeout(() => {
+          this.router.navigate(['/print-report', {
+            "cus_name": this.cus_name.value,
+            "cus_tell": this.cus_tell.value, "cus_address": this.cus_address.value,
+            "job_detail": this.job_detail, "date": this.job_date
+          }])
+        }, 500);
+
+
+
       })
     }
 
@@ -167,5 +200,5 @@ export class HomeComponent implements OnInit {
     }
 
   }
-zz
+
 }
