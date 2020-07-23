@@ -121,4 +121,24 @@ customers
       }
 
 
+      function search_job($job_id){
+        $sql = "SELECT
+        *
+        FROM
+        job
+        JOIN customers ON job.cus_id = customers.cus_id
+    WHERE
+    job_id LIKE '%$job_id%'  OR cus_name LIKE '%$job_id%'   OR cus_shop LIKE '%$job_id%' 
+        OR cus_tell LIKE '%$job_id%'
+         ";
+             if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
+                $data = [];
+                while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                    $data[] = $row;
+                }
+                $result->close();
+                return $data;
+            }
+      }
+
 }

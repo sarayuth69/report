@@ -21,7 +21,10 @@ export class ReportcustomerComponent implements OnInit {
   title = 'Excel';
   getjob: any;
   p: any;
-  text: any;z
+  text: any;
+  seach_job;
+  table1: boolean;
+  table2: boolean;
   editstatus: any;
   i: any;
   cus_name = new FormControl('');
@@ -51,6 +54,10 @@ export class ReportcustomerComponent implements OnInit {
         (data: any) => {
           this.getjob = data;
           console.log(this.getjob);
+          if (this.getjob.length > 0) {
+            this.table1 = true;
+            this.table2 = false;
+          }
         },
         (error: any) => {
           console.log(error);
@@ -102,5 +109,39 @@ export class ReportcustomerComponent implements OnInit {
       showConfirmButton: false,
       timer: 1500
     })
+  }
+
+
+
+  getsearch_job(job_id) {
+    console.log(job_id);
+    this.seach_job = [];
+    if (this.job_id.value.length === "0") {
+      Swal.fire({
+        icon: 'error',
+        title: 'ไม่พบข้อมูล',
+        text: 'Something went wrong!'
+      })
+
+    } else {
+      this.http.get('http://localhost/report_cuswebservice/API/search_job.php?job_id=' + job_id).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.seach_job = data;
+          if (this.seach_job.length > 0) {
+            this.table1 = false;
+            this.table2 = true;
+          }
+          else if (this.seach_job.length = 0) {
+            this.table1 = true;
+            this.table2 = false;
+          }
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
+    }
+
   }
 }
